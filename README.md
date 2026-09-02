@@ -2,7 +2,7 @@
 
 Smart College Bus, Route & Transport Management Platform
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live-Demo-success?style=for-the-badge)]()
+[![Live Demo](https://img.shields.io/badge/🚀_Live-Demo-success?style=for-the-badge)](https://dinesh-cse-2007.github.io/College-Transport-Management-System/)
 
 > Replace this URL with your actual deployed website link.
 
