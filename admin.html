@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Admin Dashboard - College Transport</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background: #f4f6f9;
+        color: #222;
+      }
+
+      header {
+        background: #2563eb;
+        color: white;
+        padding: 18px 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header h2 {
+        font-size: 22px;
+      }
+
+      header div {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logout {
+        background: white;
+        color: #2563eb;
+        border: none;
+        padding: 9px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      main {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+      }
+
+      main h1 {
+        margin-bottom: 8px;
+      }
+
+      .gray {
+        color: #666;
+        margin-bottom: 25px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      .card h3 {
+        font-size: 30px;
+        margin-bottom: 10px;
+      }
+
+      .card p {
+        color: #666;
+        margin-bottom: 8px;
+      }
+
+      .card h2 {
+        color: #2563eb;
+      }
+
+      section {
+        background: white;
+        padding: 25px;
+        margin-bottom: 25px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      section h2 {
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: grid;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 7px;
+        font-size: 15px;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #2563eb;
+      }
+
+      button[type="submit"] {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      button[type="submit"]:hover {
+        background: #1d4ed8;
+      }
+
+      .item {
+        background: #f8fafc;
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+      }
+
+      .item h3 {
+        color: #2563eb;
+        margin-bottom: 10px;
+      }
+
+      .item p {
+        margin: 6px 0;
+      }
+
+      .delete-btn {
+        margin-top: 10px;
+        background: #dc2626;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .delete-btn:hover {
+        background: #b91c1c;
+      }
+
+      .complaint {
+        background: #fff7ed;
+        border-left: 5px solid #f59e0b;
+        padding: 15px;
+        margin-bottom: 12px;
+        border-radius: 7px;
+      }
+
+      .complaint p {
+        margin: 7px 0;
+      }
+
+      .status {
+        display: inline-block;
+        background: #fef3c7;
+        color: #92400e;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 13px;
+        font-weight: bold;
+        margin-top: 5px;
+      }
+
+      .empty {
+        color: #777;
+        text-align: center;
+        padding: 15px;
+      }
+
+      .success {
+        display: none;
+        background: #dcfce7;
+        color: #166534;
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 7px;
+      }
+
+      @media (max-width: 900px) {
+        .cards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          gap: 15px;
+          padding: 15px;
+        }
+        .cards {
+          grid-template-columns: 1fr;
+        }
+        main {
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h2>🚌 Transport Admin</h2>
+
+      <div>
+        <span>Administrator</span>
+
+        <button type="button" class="logout" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <main>
+      <h1>Admin Dashboard</h1>
+
+      <p class="gray">Manage college transportation</p>
+
+      <div id="successMessage" class="success"></div>
+
+      <!-- STATISTICS -->
+
+      <div class="cards">
+        <div class="card">
+          <h3>👨‍🎓</h3>
+          <p>Students</p>
+          <h2 id="adminStudentsCount">0</h2>
+        </div>
+
+        <div class="card">
+          <h3>🚌</h3>
+          <p>Buses</p>
+          <h2 id="adminBusesCount">0</h2>
+        </div>
+
+        <div class="card">
+          <h3>📍</h3>
+          <p>Routes</p>
+          <h2 id="adminRoutesCount">0</h2>
+        </div>
+
+        <div class="card">
+          <h3>⚠️</h3>
+          <p>Complaints</p>
+          <h2 id="adminComplaintsCount">0</h2>
+        </div>
+      </div>
+
+      <!-- ADD BUS -->
+
+      <section>
+        <h2>🚌 Add Bus</h2>
+
+        <form id="busForm">
+          <input type="text" id="busNumber" placeholder="Bus Number" required />
+
+          <input
+            type="text"
+            id="busRegistration"
+            placeholder="Registration Number"
+            required
+          />
+
+          <input
+            type="number"
+            id="busCapacity"
+            placeholder="Capacity"
+            min="1"
+            required
+          />
+
+          <button type="submit">Add Bus</button>
+        </form>
+
+        <div id="busList"></div>
+      </section>
+
+      <!-- ADD ROUTE -->
+
+      <section>
+        <h2>📍 Add Route</h2>
+
+        <form id="routeForm">
+          <input type="text" id="routeName" placeholder="Route Name" required />
+
+          <input type="text" id="routeBus" placeholder="Bus Number" required />
+
+          <input
+            type="text"
+            id="routeStart"
+            placeholder="Starting Point"
+            required
+          />
+
+          <input type="text" id="routeEnd" placeholder="College" required />
+
+          <input
+            type="text"
+            id="routeStops"
+            placeholder="Stops separated by comma"
+            required
+          />
+
+          <!-- FIXED TIME INPUT -->
+
+          <label for="routeTime"> Route Time </label>
+
+          <input type="time" id="routeTime" name="routeTime" required />
+
+          <button type="submit">Add Route</button>
+        </form>
+
+        <div id="routeList"></div>
+      </section>
+
+      <!-- STUDENTS -->
+
+      <section>
+        <h2>👨‍🎓 Registered Students</h2>
+
+        <div id="studentList"></div>
+      </section>
+
+      <!-- COMPLAINTS -->
+
+      <section>
+        <h2>⚠️ Student Complaints</h2>
+
+        <div id="adminComplaints"></div>
+      </section>
+    </main>
+
+    <script>
+      /* =====================================
+               STORAGE
+            ===================================== */
+
+      const BUS_KEY = "collegeBuses";
+      const ROUTE_KEY = "collegeRoutes";
+      const STUDENT_KEY = "registeredStudents";
+      const COMPLAINT_KEY = "studentComplaints";
+
+      /* =====================================
+           SAFE JSON FUNCTION
+        ===================================== */
+
+      function getStorageData(key, defaultValue) {
+        try {
+          const data = localStorage.getItem(key);
+
+          if (!data) {
+            return defaultValue;
+          }
+
+          const parsed = JSON.parse(data);
+
+          return Array.isArray(parsed) ? parsed : defaultValue;
+        } catch (error) {
+          console.error("Storage error:", error);
+
+          return defaultValue;
+        }
+      }
+
+      /* =====================================
+           DATA
+        ===================================== */
+
+      let buses = getStorageData(BUS_KEY, [
+        {
+          number: "BUS-101",
+          registration: "TN01AB1234",
+          capacity: 50,
+        },
+        {
+          number: "BUS-102",
+          registration: "TN01AB5678",
+          capacity: 50,
+        },
+      ]);
+
+      let routes = getStorageData(ROUTE_KEY, [
+        {
+          name: "Central Route",
+          bus: "BUS-101",
+          start: "Chennai Central",
+          end: "College",
+          stops: ["Central", "Egmore", "Anna Nagar"],
+          time: "07:30",
+        },
+        {
+          name: "Tambaram Route",
+          bus: "BUS-102",
+          start: "Tambaram",
+          end: "College",
+          stops: ["Tambaram", "Chromepet", "Pallavaram"],
+          time: "07:45",
+        },
+      ]);
+
+      let students = getStorageData(STUDENT_KEY, []);
+
+      let complaints = getStorageData(COMPLAINT_KEY, []);
+
+      /* =====================================
+           SAVE
+        ===================================== */
+
+      function saveData() {
+        localStorage.setItem(BUS_KEY, JSON.stringify(buses));
+
+        localStorage.setItem(ROUTE_KEY, JSON.stringify(routes));
+
+        localStorage.setItem(STUDENT_KEY, JSON.stringify(students));
+
+        localStorage.setItem(COMPLAINT_KEY, JSON.stringify(complaints));
+      }
+
+      /* =====================================
+           STATISTICS
+        ===================================== */
+
+      function updateStatistics() {
+        document.getElementById("adminStudentsCount").textContent =
+          students.length;
+
+        document.getElementById("adminBusesCount").textContent = buses.length;
+
+        document.getElementById("adminRoutesCount").textContent = routes.length;
+
+        document.getElementById("adminComplaintsCount").textContent =
+          complaints.length;
+      }
+
+      /* =====================================
+           MESSAGE
+        ===================================== */
+
+      function showMessage(message) {
+        const box = document.getElementById("successMessage");
+
+        box.textContent = message;
+
+        box.style.display = "block";
+
+        setTimeout(function () {
+          box.style.display = "none";
+        }, 2500);
+      }
+
+      /* =====================================
+           ADD BUS
+        ===================================== */
+
+      document
+        .getElementById("busForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const number = document.getElementById("busNumber").value.trim();
+
+          const registration = document
+            .getElementById("busRegistration")
+            .value.trim();
+
+          const capacity = Number(document.getElementById("busCapacity").value);
+
+          if (number === "" || registration === "" || capacity <= 0) {
+            alert("Please enter valid bus details.");
+
+            return;
+          }
+
+          const exists = buses.some(function (bus) {
+            return bus.number.toLowerCase() === number.toLowerCase();
+          });
+
+          if (exists) {
+            alert("This bus number already exists.");
+
+            return;
+          }
+
+          buses.push({
+            number: number,
+
+            registration: registration,
+
+            capacity: capacity,
+          });
+
+          saveData();
+
+          updateStatistics();
+
+          showBuses();
+
+          document.getElementById("busForm").reset();
+
+          showMessage("Bus added successfully.");
+        });
+
+      /* =====================================
+           DISPLAY BUSES
+        ===================================== */
+
+      function showBuses() {
+        const container = document.getElementById("busList");
+
+        if (buses.length === 0) {
+          container.innerHTML = '<p class="empty">No buses available.</p>';
+
+          return;
+        }
+
+        container.innerHTML = buses
+          .map(function (bus, index) {
+            return `
+
+            <div class="item">
+
+              <h3>
+                🚌 ${escapeHTML(bus.number)}
+              </h3>
+
+              <p>
+                <strong>Registration:</strong>
+                ${escapeHTML(bus.registration)}
+              </p>
+
+              <p>
+                <strong>Capacity:</strong>
+                ${bus.capacity}
+              </p>
+
+              <button
+                class="delete-btn"
+                onclick="deleteBus(${index})">
+                Delete Bus
+              </button>
+
+            </div>
+
+          `;
+          })
+          .join("");
+      }
+
+      /* =====================================
+           DELETE BUS
+        ===================================== */
+
+      function deleteBus(index) {
+        if (!buses[index]) {
+          return;
+        }
+
+        const confirmed = confirm("Are you sure you want to delete this bus?");
+
+        if (!confirmed) {
+          return;
+        }
+
+        buses.splice(index, 1);
+
+        saveData();
+
+        updateStatistics();
+
+        showBuses();
+
+        showMessage("Bus deleted successfully.");
+      }
+
+      /* =====================================
+           ADD ROUTE
+        ===================================== */
+
+      document
+        .getElementById("routeForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const name = document.getElementById("routeName").value.trim();
+
+          const bus = document.getElementById("routeBus").value.trim();
+
+          const start = document.getElementById("routeStart").value.trim();
+
+          const end = document.getElementById("routeEnd").value.trim();
+
+          const stopsText = document.getElementById("routeStops").value.trim();
+
+          const time = document.getElementById("routeTime").value;
+
+          /* Validate route */
+
+          if (
+            name === "" ||
+            bus === "" ||
+            start === "" ||
+            end === "" ||
+            stopsText === "" ||
+            time === ""
+          ) {
+            alert("Please fill all route fields.");
+
+            return;
+          }
+
+          /* Check bus */
+
+          const busExists = buses.some(function (item) {
+            return item.number.toLowerCase() === bus.toLowerCase();
+          });
+
+          if (!busExists) {
+            alert("Bus number does not exist. Please add the bus first.");
+
+            return;
+          }
+
+          /* Stops */
+
+          const stops = stopsText
+            .split(",")
+            .map(function (stop) {
+              return stop.trim();
+            })
+            .filter(function (stop) {
+              return stop !== "";
+            });
+
+          routes.push({
+            name: name,
+
+            bus: bus,
+
+            start: start,
+
+            end: end,
+
+            stops: stops,
+
+            time: time,
+          });
+
+          saveData();
+
+          updateStatistics();
+
+          showRoutes();
+
+          document.getElementById("routeForm").reset();
+
+          showMessage("Route added successfully.");
+        });
+
+      /* =====================================
+           DISPLAY ROUTES
+        ===================================== */
+
+      function showRoutes() {
+        const container = document.getElementById("routeList");
+
+        if (routes.length === 0) {
+          container.innerHTML = '<p class="empty">No routes available.</p>';
+
+          return;
+        }
+
+        container.innerHTML = routes
+          .map(function (route, index) {
+            const stops = Array.isArray(route.stops)
+              ? route.stops.join(", ")
+              : String(route.stops || "");
+
+            return `
+
+            <div class="item">
+
+              <h3>
+                📍 ${escapeHTML(route.name)}
+              </h3>
+
+              <p>
+                <strong>Bus:</strong>
+                ${escapeHTML(route.bus)}
+              </p>
+
+              <p>
+                <strong>Starting Point:</strong>
+                ${escapeHTML(route.start)}
+              </p>
+
+              <p>
+                <strong>College:</strong>
+                ${escapeHTML(route.end)}
+              </p>
+
+              <p>
+                <strong>Stops:</strong>
+                ${escapeHTML(stops)}
+              </p>
+
+              <p>
+                <strong>Time:</strong>
+                ${escapeHTML(route.time)}
+              </p>
+
+              <button
+                class="delete-btn"
+                onclick="deleteRoute(${index})">
+                Delete Route
+              </button>
+
+            </div>
+
+          `;
+          })
+          .join("");
+      }
+
+      /* =====================================
+           DELETE ROUTE
+        ===================================== */
+
+      function deleteRoute(index) {
+        if (!routes[index]) {
+          return;
+        }
+
+        const confirmed = confirm(
+          "Are you sure you want to delete this route?",
+        );
+
+        if (!confirmed) {
+          return;
+        }
+
+        routes.splice(index, 1);
+
+        saveData();
+
+        updateStatistics();
+
+        showRoutes();
+
+        showMessage("Route deleted successfully.");
+      }
+
+      /* =====================================
+           STUDENTS
+        ===================================== */
+
+      function showStudents() {
+        const container = document.getElementById("studentList");
+
+        if (students.length === 0) {
+          container.innerHTML =
+            '<p class="empty">No registered students found.</p>';
+
+          return;
+        }
+
+        container.innerHTML = students
+          .map(function (student) {
+            const name = student.name || student.studentName || "Unknown";
+
+            const roll = student.rollNumber || student.roll || "Not available";
+
+            const email = student.email || student.emailId || "Not available";
+
+            const department = student.department || "Not available";
+
+            return `
+
+            <div class="item">
+
+              <h3>
+                👨‍🎓 ${escapeHTML(name)}
+              </h3>
+
+              <p>
+                <strong>Roll Number:</strong>
+                ${escapeHTML(roll)}
+              </p>
+
+              <p>
+                <strong>Email:</strong>
+                ${escapeHTML(email)}
+              </p>
+
+              <p>
+                <strong>Department:</strong>
+                ${escapeHTML(department)}
+              </p>
+
+            </div>
+
+          `;
+          })
+          .join("");
+      }
+
+      /* =====================================
+           COMPLAINTS
+        ===================================== */
+
+      function showComplaints() {
+        const container = document.getElementById("adminComplaints");
+
+        if (complaints.length === 0) {
+          container.innerHTML = '<p class="empty">No complaints found.</p>';
+
+          return;
+        }
+
+        container.innerHTML = complaints
+          .map(function (complaint, index) {
+            return `
+
+            <div class="complaint">
+
+              <p>
+                <strong>Student:</strong>
+                ${escapeHTML(complaint.student || "Unknown")}
+              </p>
+
+              <p>
+                <strong>Type:</strong>
+                ${escapeHTML(complaint.type || "Unknown")}
+              </p>
+
+              <p>
+                <strong>Bus:</strong>
+                ${escapeHTML(complaint.bus || "Unknown")}
+              </p>
+
+              <p>
+                <strong>Description:</strong>
+                ${escapeHTML(complaint.description || "")}
+              </p>
+
+              <p>
+                <strong>Date:</strong>
+                ${escapeHTML(complaint.date || "Unknown")}
+              </p>
+
+              <span class="status">
+                ${escapeHTML(complaint.status || "Pending")}
+              </span>
+
+              <br>
+
+              <button
+                class="delete-btn"
+                onclick="deleteComplaint(${index})">
+                Delete Complaint
+              </button>
+
+            </div>
+
+          `;
+          })
+          .join("");
+      }
+
+      /* =====================================
+           DELETE COMPLAINT
+        ===================================== */
+
+      function deleteComplaint(index) {
+        if (!complaints[index]) {
+          return;
+        }
+
+        const confirmed = confirm(
+          "Are you sure you want to delete this complaint?",
+        );
+
+        if (!confirmed) {
+          return;
+        }
+
+        complaints.splice(index, 1);
+
+        saveData();
+
+        updateStatistics();
+
+        showComplaints();
+
+        showMessage("Complaint deleted successfully.");
+      }
+
+      /* =====================================
+           LOGOUT
+        ===================================== */
+
+      function logout() {
+        const confirmed = confirm("Are you sure you want to logout?");
+
+        if (!confirmed) {
+          return;
+        }
+
+        window.location.href = "login.html";
+      }
+
+      /* =====================================
+           ESCAPE HTML
+        ===================================== */
+
+      function escapeHTML(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+
+          .replace(/</g, "&lt;")
+
+          .replace(/>/g, "&gt;")
+
+          .replace(/"/g, "&quot;")
+
+          .replace(/'/g, "&#039;");
+      }
+
+      /* =====================================
+           START APPLICATION
+        ===================================== */
+
+      function initializeDashboard() {
+        saveData();
+
+        updateStatistics();
+
+        showBuses();
+
+        showRoutes();
+
+        showStudents();
+
+        showComplaints();
+      }
+
+      initializeDashboard();
+    </script>
+  </body>
+</html>

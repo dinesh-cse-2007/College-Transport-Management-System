@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Driver Dashboard</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header>
+      <h2>🚌 College Transport</h2>
+
+      <div>
+        <span id="driverName"></span>
+
+        <button onclick="logout()" class="logout">Logout</button>
+      </div>
+    </header>
+
+    <main>
+      <h1>Driver Dashboard</h1>
+
+      <p class="gray">Manage your assigned bus</p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>🚌</h3>
+
+          <p>Assigned Bus</p>
+
+          <h2 id="driverBus">-</h2>
+        </div>
+
+        <div class="card">
+          <h3>📍</h3>
+
+          <p>Route</p>
+
+          <h2 id="driverRoute">-</h2>
+        </div>
+
+        <div class="card">
+          <h3>⏰</h3>
+
+          <p>Departure</p>
+
+          <h2 id="driverTime">-</h2>
+        </div>
+
+        <div class="card">
+          <h3>🚦</h3>
+
+          <p>Status</p>
+
+          <h2 id="driverStatus">Not Started</h2>
+        </div>
+      </div>
+
+      <section>
+        <h2>My Assignment</h2>
+
+        <div id="driverAssignment"></div>
+      </section>
+
+      <section>
+        <h2>Trip Control</h2>
+
+        <button onclick="setTripStatus('Started')" class="green">
+          🟢 Start Trip
+        </button>
+
+        <button onclick="setTripStatus('Delayed')" class="orange">
+          🟡 Mark Delayed
+        </button>
+
+        <button onclick="setTripStatus('Completed')" class="red">
+          🔴 Complete Trip
+        </button>
+
+        <p id="tripMessage"></p>
+      </section>
+
+      <section>
+        <h2>Route Stops</h2>
+
+        <div id="driverStops"></div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>College Transport Management</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body class="login-page">
+    <div class="login-box">
+      <div class="login-left">
+        <div class="bus-icon">🚌</div>
+
+        <h1>College Transport</h1>
+
+        <p>College Transport Management System</p>
+
+        <div class="features">
+          <p>🚌 Bus Management</p>
+          <p>📍 Route Management</p>
+          <p>🎫 Student Transport Pass</p>
+          <p>👨‍✈️ Driver Management</p>
+          <p>⚠️ Complaint Management</p>
+        </div>
+      </div>
+
+      <div class="login-right">
+        <!-- LOGIN -->
+
+        <div id="loginBox">
+          <h2>Login</h2>
+
+          <p class="gray">Login to your account</p>
+
+          <form id="loginForm">
+            <label>Email</label>
+
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="Enter email"
+              required
+            />
+
+            <label>Password</label>
+
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Enter password"
+              required
+            />
+
+            <button type="submit">Login</button>
+          </form>
+
+          <p class="switch">
+            Don't have an account?
+            <a href="#" onclick="showRegister()"> Register </a>
+          </p>
+
+          <div class="demo">
+            <strong>Demo Login</strong>
+
+            <p>Admin: admin@college.com / admin123</p>
+
+            <p>Driver: driver@college.com / driver123</p>
+          </div>
+        </div>
+
+        <!-- REGISTER -->
+
+        <div id="registerBox" class="hidden">
+          <h2>Student Registration</h2>
+
+          <p class="gray">Create a student account</p>
+
+          <form id="registerForm">
+            <label>Student Name</label>
+
+            <input
+              type="text"
+              id="studentName"
+              placeholder="Enter name"
+              required
+            />
+
+            <label>Roll Number</label>
+
+            <input
+              type="text"
+              id="rollNumber"
+              placeholder="Enter roll number"
+              required
+            />
+
+            <label>Email</label>
+
+            <input
+              type="email"
+              id="registerEmail"
+              placeholder="Enter email"
+              required
+            />
+
+            <label>Password</label>
+
+            <input
+              type="password"
+              id="registerPassword"
+              placeholder="Enter password"
+              required
+            />
+
+            <button type="submit">Register</button>
+          </form>
+
+          <p class="switch">
+            Already have an account?
+            <a href="#" onclick="showLogin()"> Login </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
