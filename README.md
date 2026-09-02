@@ -2,9 +2,7 @@
 
 Smart College Bus, Route & Transport Management Platform
 
-🚀 Live Demo
-
-🌐 View Live Demo
+[![Live Demo](https://img.shields.io/badge/🚀_Live-Demo-success?style=for-the-badge)]()
 
 > Replace this URL with your actual deployed website link.
 
